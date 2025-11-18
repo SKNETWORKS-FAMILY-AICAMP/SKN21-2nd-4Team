@@ -1,3 +1,8 @@
+시작 시 uv venv로 가상환경 생성.
+.venv\Scripts\activate 로 실행(windows) | mac 은 알아서 실행
+uv pip install -r requirements.txt로 실행환경 버전 맞추기
+
+
 ① 데이터 매니저 (우재현)
 역할: 데이터 구조 정의 + 초기 EDA + 전체 워크플로우 조율
 
