@@ -1,0 +1,16 @@
+# 딥러닝 모델 구조
+import torch
+import torch.nn as nn
+
+class MLPModel(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(MLPModel, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size, output_size)
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
