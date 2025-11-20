@@ -7,9 +7,7 @@ binary_mapping = {
     'Yes': 1,
     'No': 0,
     'Male': 1,
-    'Female': 0,
-    'No internet service': 0,
-    'No phone service': 0
+    'Female': 0
 }
 
 
