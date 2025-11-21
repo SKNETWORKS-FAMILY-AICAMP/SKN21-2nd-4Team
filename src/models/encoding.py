@@ -43,17 +43,20 @@ def label_encoding(df):
 
 # ---- 2) OneHot Encoding ----
 def one_hot(df):
-    
+
+
     #binary mapping 
     for col in categorical_cols:
         if col in df.columns:
             df[col] =df[col].map(binary_mapping).fillna(df[col])
             df[col] = df[col].astype(str)
 
-    df = df.replace({True:1, False:0})        
+            # df = df.replace({True:1, False:0})  
+
     object_cols = [col for col in categorical_cols if col in df.columns and df[col].dtype == 'object']
 
-    df = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
+    #OneHot    
+    df = pd.get_dummies(df, columns=object_cols, drop_first=True, dtype=int)
 
 
     return df
@@ -100,7 +103,7 @@ def process_all_files(input_dir, output_dir):
 
 # ---- RUN ----
 if __name__ == "__main__":
-    input_dir = 'data/raw'
+    input_dir = 'data/interim'
     output_dir = 'data/processed'
     process_all_files(input_dir, output_dir)
 
