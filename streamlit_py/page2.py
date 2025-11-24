@@ -41,6 +41,7 @@ def load_models():
 
     try:
         dl_model = load_dl_model(
+<<<<<<< HEAD
         model_path=dl_model_path,
         hidden_size=50,
         )
@@ -50,6 +51,12 @@ def load_models():
             # 학습 당시에는 컬럼이 더 적었으므로, 앞에서부터 필요한 개수만 사용
             feature_cols = feature_cols[:dl_input_size]
             
+=======
+            model_path=dl_model_path,
+            input_size=len(feature_cols),
+            hidden_size=50,  # 학습 시 사용한 hidden_size와 동일하게
+        )
+>>>>>>> 735c6426bef8fea877d90f11dc16e2f34c6caa2a
     except Exception as e:
         st.warning(f"⚠ 딥러닝 모델 로드 실패: {e}")
 

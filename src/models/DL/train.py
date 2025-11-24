@@ -10,7 +10,7 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 
 # 1) 데이터 불러오기  (label 인코딩 버전)
-train_data = pd.read_csv('data/processed/Customer_Churn_Dataset_label.csv')
+train_data = pd.read_csv('data/processed/Customer_Churn_Dataset_0_impute_label.csv')
 
 # 2) 숫자형 컬럼만 사용
 train_data_numeric = train_data.select_dtypes(include=['float64', 'int64'])
@@ -57,5 +57,5 @@ for epoch in range(num_epochs):
     if (epoch + 1) % 10 == 0:
         print(f'Epoch {epoch+1}, Loss: {loss.item():.4f}')
 
-# 9) 모델 저장 (label 버전 이름으로)
-torch.save(model.state_dict(), 'models/DL/final_dl_model_label.pt')
+# 9) 모델 저장
+torch.save(model.state_dict(), 'src/models/DL/final_dl_model_label.pt')
