@@ -1,32 +1,55 @@
-# 데이터 로딩 / 모델 예측 및평가
+import numpy as np
 import torch
-from torch.utils.data import Dataset, DataLoader
+from .model import MLPModel
 
-# 데이터셋 클래스 정의
-class CustomDataset(Dataset):
-    def __init__(self, data, labels):
-        self.data = data
-        self.labels = labels
 
-    def __len__(self):
-        return len(self.data)
-
-    def __getitem__(self, idx):
-        return self.data[idx], self.labels[idx]
-
-def load_model(model, model_path):
-    model.load_state_dict(torch.load(model_path))
+def load_dl_model(model_path, input_size, hidden_size=50):
+    model = MLPModel(input_size=input_size, hidden_size=hidden_size, output_size=1)
+    state = torch.load(model_path, map_location="cpu")
+    model.load_state_dict(state)
+    model.eval()
     return model
 
-def evaluate(model, test_loader):
-    model.eval()
-    total = 0
-    correct = 0
-    with torch.no_grad():
-        for data, target in test_loader:
-            output = model(data)
-            predicted = output.argmax(dim=1)
-            correct += (predicted == target).sum().item()
-            total += target.size(0)
-    accuracy = 100 * correct / total
-    print(f'Accuracy: {accuracy}%')
+
+def transform_input_for_dl(user_df, feature_cols):
+    """
+    Streamlit 입력값을 딥러닝 학습 때 사용한 feature_cols 순서에 맞는
+    숫자 벡터로 변환.
+    """
+    df = user_df.copy()
+
+    # gender
+    df["gender"] = df["gender"].map({"Male": 1, "Female": 0})
+
+    # Yes/No
+    df["Partner"] = df["Partner"].map({"Yes": 1, "No": 0})
+    df["Dependents"] = df["Dependents"].map({"Yes": 1, "No": 0})
+
+    # InternetService
+    df["InternetService"] = df["InternetService"].map({
+        "DSL": 0, "Fiber optic": 1, "No": 2
+    })
+
+    # Contract
+    df["Contract"] = df["Contract"].map({
+        "Month-to-month": 0, "One year": 1, "Two year": 2
+    })
+
+    # PaymentMethod
+    df["PaymentMethod"] = df["PaymentMethod"].map({
+        "Electronic check": 0,
+        "Mailed check": 1,
+        "Bank transfer (automatic)": 2,
+        "Credit card (automatic)": 3
+    })
+
+    # 숫자형만 남기기
+    numeric = df.select_dtypes(include=["int64", "float64"])
+
+    # feature_cols 기준으로 없는 컬럼은 0으로 채우고, 순서 맞추기
+    for col in feature_cols:
+        if col not in numeric.columns:
+            numeric[col] = 0
+    numeric = numeric[feature_cols]
+
+    return numeric.values.astype(np.float32)
