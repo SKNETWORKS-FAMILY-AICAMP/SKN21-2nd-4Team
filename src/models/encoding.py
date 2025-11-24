@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import logging
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 
@@ -25,14 +26,14 @@ categorical_cols = [
 def setup_logger():
     logging.basicConfig(
         level = logging.INFO,
-        format = "%(asctime)s [%(levelname)s %(message)s",
+        format = "%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
             logging.FileHandler("Pipeline.log", mode='w'),
             logging.StreamHandler()
         ]
     )
 
-    
+
 
 # ---- 1) LabelEncoding ----
 def label_encoding(df):
