@@ -1,4 +1,7 @@
 # main.py
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -24,7 +27,7 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     # 이 경로에 csv 파일이 있다고 가정합니다.
-    path = "data/raw/Customer_Churn_Dataset.csv"
+    path = "data/processed/Customer_Churn_Dataset_0_impute.csv"
     df = pd.read_csv(path)
 
     # TotalCharges 컬럼을 숫자로 변환
