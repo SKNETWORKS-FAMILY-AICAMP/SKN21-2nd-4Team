@@ -14,7 +14,7 @@ DB_CONFIG = {
     "user": os.getenv("DB_USER", "root"),
     "password": os.getenv("DB_PASSWORD", "1234"),
     "database": os.getenv("DB_NAME", "telco_churn"),
-    "port": os.getenv("DB_PORT", 3306)
+    "port": int(os.getenv("DB_PORT", 3306))
 }
 
 # 데이터 경로
