@@ -87,9 +87,10 @@ def print_binary_classification_metrics(y, pred, proba=None, title=None):
     if title:
         print(title)
     print("정확도:", accuracy_score(y, pred))
+    print("F1 점수:", f1_score(y, pred))
     print("재현율:", recall_score(y, pred))
     print("정밀도:", precision_score(y, pred))
-    print("F1 점수:", f1_score(y, pred))
+
     if proba is not None:
         print("Average Precision:", average_precision_score(y, proba))
         print("ROC-AUC Score:", roc_auc_score(y, proba))

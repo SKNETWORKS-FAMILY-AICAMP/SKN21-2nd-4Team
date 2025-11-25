@@ -96,13 +96,13 @@ df.isna().sum()
 
 기본 분포 확인(수치형)
 
-![alt text](image.png)
+![alt text](../img/image.png)
 
 기본 분포 확인(범주형)
 - TotalCharges 타입 변경 필요해보임. object -> float.
 - 결측치가 빈칸으로 존재해서 기존 float type이 object로 변환된 것으로 추정
 
-![alt text](image-1.png)
+![alt text](../img/image-1.png)
 
 <br>
 
@@ -111,7 +111,7 @@ df.isna().sum()
 - 비율이 73:27정도로 불균형 데이터.
 - 훈련 과정에서의 성능 개선을 위해 전처리가 필요
 
-![alt text](image-2.png)
+![alt text](../img/image-2.png)
 
 <br>
 
@@ -121,7 +121,7 @@ df.isna().sum()
 - MonthlyCharges 와 Churn → 양의 약한 관계
 - numTechTickets와 Churn → 약하지만 의미 있는 수준
 
-![alt text](image-3.png)
+![alt text](../img/image-3.png)
 
 <br>
 
@@ -129,7 +129,7 @@ df.isna().sum()
 - 장기 고객(tenure↑)은 이탈 가능성 낮음. 중요 Feature 가능성 높음
 - 월 청구 금액(MonthlyCharges)이 높은 구간에서 이탈 비율 증가
 
-![alt text](image-4.png)
+![alt text](../img/image-4.png)
 
 <br>
 
@@ -144,5 +144,5 @@ df.isna().sum()
 - PaperlessBilling: Yes일 때 이탈율 약간 상승.
 - PaymentMethod: Electronic check 사용 시 이탈률 가장 높음
 
-![alt text](image-5.png)
+![alt text](../img/image-5.png)
 
