@@ -149,7 +149,8 @@ df.isna().sum()
 <br>
 
 # 10. 결측치 처리 방법 및 이유
-- 결측 예측했던 TotalCharges의 타입을 float으로 변경. 빈칸이 존재함을 발견.
+- TotalCharges를 object 타입에서 float 타입으로 형변환 하려고 했으나, 에러 발생.
+- 빈칸이 있어서 에러인 것을 확인, 빈칸을 NaN으로 표기 후 타입 변경
 - tenure * MonthlyCharges와 TotalCharges간의 상관관계를 발견.
 
 - 결측치를 tenure * MonthlyCharges로 처리
