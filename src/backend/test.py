@@ -9,3 +9,4 @@ csv_path = '/Users/anhyebin/Documents/SKN21/SKN21-2nd-4Team/data/interim/Custome
 
 if __name__ == "__main__":
     ChurnData(csv_path)
+
