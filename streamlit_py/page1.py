@@ -61,7 +61,7 @@ def run(df: pd.DataFrame):
     # -------------------------
     # 제목 및 설명
     # -------------------------
-    st.markdown("## 👤 개별 유저 정보 조회 및 이탈 위험도")
+    st.markdown("## 👤 기존 유저 정보 조회 및 이탈 위험도")
 
     st.markdown(
         """
@@ -256,8 +256,8 @@ def run(df: pd.DataFrame):
     # --------------------------------------------------
     max_row = reasons_df.loc[reasons_df["이탈율(%)"].idxmax()]
 
+    st.markdown("**이 유저는**")
     explanation_text = f"""
-- 이 유저는  
   · **{max_row['조건']}** 그룹에 속해 있으며,  
   · 이 그룹의 이탈율은 **{max_row['이탈율(%)']:.1f}%**로  
     다른 조건 대비 상대적으로 높은 편입니다.  
@@ -272,9 +272,3 @@ def run(df: pd.DataFrame):
 
     st.markdown("**이탈 방지 해결 방안**")
     st.markdown(recommendation_text)
-
-    # SHAP 안내 문구만 다시 표시
-    st.caption(
-        "※ 추후에는 여기에 **모델 기반 설명(SHAP, feature importance 등)**을 추가하여, "
-        "‘어떤 요인이 이탈 위험을 높였는지’ 더 정교하게 설명할 수 있습니다."
-    )

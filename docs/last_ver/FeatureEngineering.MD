@@ -1,8 +1,8 @@
-# 📊 기본 EDA & 데이터 분석 보고서  
+# 📊 데이터 전 처리 결과서
 **Dataset:** Telco Customer Churn  
 **Author:** 우재현
 **Version:** v1.0  
-**Last Updated:** 2025-11-19  
+**Last Updated:** 2025-11-25  
 
 ---
 <br>
@@ -96,13 +96,13 @@ df.isna().sum()
 
 기본 분포 확인(수치형)
 
-![alt text](image.png)
+![alt text](../img/image.png)
 
 기본 분포 확인(범주형)
 - TotalCharges 타입 변경 필요해보임. object -> float.
 - 결측치가 빈칸으로 존재해서 기존 float type이 object로 변환된 것으로 추정
 
-![alt text](image-1.png)
+![alt text](../img/image-1.png)
 
 <br>
 
@@ -111,7 +111,7 @@ df.isna().sum()
 - 비율이 73:27정도로 불균형 데이터.
 - 훈련 과정에서의 성능 개선을 위해 전처리가 필요
 
-![alt text](image-2.png)
+![alt text](../img/image-2.png)
 
 <br>
 
@@ -121,7 +121,7 @@ df.isna().sum()
 - MonthlyCharges 와 Churn → 양의 약한 관계
 - numTechTickets와 Churn → 약하지만 의미 있는 수준
 
-![alt text](image-3.png)
+![alt text](../img/image-3.png)
 
 <br>
 
@@ -129,7 +129,7 @@ df.isna().sum()
 - 장기 고객(tenure↑)은 이탈 가능성 낮음. 중요 Feature 가능성 높음
 - 월 청구 금액(MonthlyCharges)이 높은 구간에서 이탈 비율 증가
 
-![alt text](image-4.png)
+![alt text](../img/image-4.png)
 
 <br>
 
@@ -144,17 +144,45 @@ df.isna().sum()
 - PaperlessBilling: Yes일 때 이탈율 약간 상승.
 - PaymentMethod: Electronic check 사용 시 이탈률 가장 높음
 
-![alt text](image-5.png)
+![alt text](../img/image-5.png)
 
 <br>
 
 # 10. 결측치 처리 방법 및 이유
-- 결측 예측했던 TotalCharges 
+- TotalCharges를 object 타입에서 float 타입으로 형변환 하려고 했으나, 에러 발생.
+- 빈칸이 있어서 에러인 것을 확인, 빈칸을 NaN으로 표기 후 타입 변경
+- tenure * MonthlyCharges와 TotalCharges간의 상관관계를 발견
+
+![alt text](../img/image-6.png)
+![alt text](../img/image-7.png)
+- 결측치를 tenure * MonthlyCharges로 처리
 
 <br>
 
 # 11. 이상치 판정 기준과 처리 방법 및 이유
+- 분위수 기준 판정을 사용.
+- 그래프 상에서 이상치가 있는 걸로 보였던 tenure, TotalCharges 컬럼 조회했으나, 이상치로 판정되지 않음.
+- 이용기간이 긴 고객의 지불금액이 높은 것으로 판단, 이상치가 아니라고 판정.
 
 <br>
 
 # 12. 적용한 Feature Engineering 방식
+범주형 변수 처리
+- One-Hot Encoding
+    - 적용 모델: LogisticRegression, DecisionTree, RandomForest
+    - LogisticRegression은 범주 왜곡성 방지를 위함.
+    <br>트리기반 모델은 split 기준의 안정성을 위해 One-Hot 방식 적용
+- label encoding
+    - 적용 모델: LightGBM
+    - 내부적으로 범주형 변수 최적 처리 가능하기 때문.
+
+<br>
+
+불균형 데이터 처리
+- 훈련 데이터 분할 시 Stratify 옵션 활용
+    - 학습/검증 데이터 간 타깃 비율 불균형 완화
+- SMOTE 활용
+    - minority class(이탈 고객) 샘플을 생성하여 학습 안정성 향상
+- 모델별 불균형 대응 파라미터 활용
+    - class_weight='balanced'
+    - is_unbalance=True
