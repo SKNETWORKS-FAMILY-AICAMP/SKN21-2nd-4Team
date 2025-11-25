@@ -58,4 +58,4 @@ for epoch in range(num_epochs):
         print(f'Epoch {epoch+1}, Loss: {loss.item():.4f}')
 
 # 9) 모델 저장
-torch.save(model.state_dict(), 'src/models/DL/final_dl_model_label.pt')
+torch.save(model.state_dict(), 'models/DL/final_dl_model_label.pt')
