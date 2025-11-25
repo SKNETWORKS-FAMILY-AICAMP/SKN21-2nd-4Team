@@ -5,11 +5,11 @@
 ### 👨‍👩‍👧‍👦 **팀원 소개**
 |  이름  | 역 할  |   세부 역할    | Github         |
 | :----: | :----: | :------------: | :------------- |
-| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습 | ㅇㅇ   |
-| 김승룡 |  팀원  | 데이터전처리(결측, 이상치), 모델별 가이드라인 구축, 모델(XGBoost, SVM) 학습    | @ksryong0 |
-| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습   | @hyebinhy |
-| 이의정 |  팀원  |   모델(RandomForest) 학습     | @lee910814     |
-| 조남웅 |  팀원  |   모델(DecisionTree) 학습, 딥러닝 학습, Streamlit 구현    | @whskadnd     |
+| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습 | [@Wjaehyun](https://github.com/Wjaehyun) |
+| 김승룡 |  팀원  | 데이터전처리(결측, 이상치), 모델별 가이드라인 구축, 모델(XGBoost, SVM) 학습    | [@ksryong0](https://github.com/ksryong0) |
+| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습   | [@hyebinhy](https://github.com/hyebinhy) |
+| 이의정 |  팀원  |   모델(RandomForest) 학습     | [@lee910814](https://github.com/lee910814) |
+| 조남웅 |  팀원  |   모델(DecisionTree) 학습, 딥러닝 학습, Streamlit 구현    | [@whskadnd](https://github.com/whskadnd) |
 
 ---
 
