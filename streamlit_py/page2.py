@@ -1,37 +1,114 @@
-# page2.py
-import streamlit as st
+import os
+import numpy as np
 import pandas as pd
+import streamlit as st
+import torch
+
+from src.models.DL.utils import load_dl_model, transform_input_for_dl
 
 
+# ---------------------------------------------------------
+# 🔧 공통: 데이터셋 & 모델 로딩 함수 (캐시 사용)
+# ---------------------------------------------------------
+@st.cache_resource
+def load_base_dataset():
+    """
+    딥러닝 학습에 사용한 전처리 데이터셋을 불러옵니다.
+    (0-impute + label 인코딩 버전)
+    """
+    csv_path = "data/processed/Customer_Churn_Dataset_0_impute_label.csv"
+    df_proc = pd.read_csv(csv_path)
+    return df_proc
+
+
+@st.cache_resource
+def load_models():
+    """
+    - ML 모델(pkl)
+    - DL 모델(pt)
+    - DL 입력 피처 목록
+    을 한 번만 로딩하고 캐싱합니다.
+    """
+    df_proc = load_base_dataset()
+
+    # 숫자형 컬럼만 사용 (DL 학습 때와 동일한 방식)
+    numeric = df_proc.select_dtypes(include=["float64", "int64"])
+    feature_cols = [c for c in numeric.columns if c != "Churn"]
+
+    # ----- 딥러닝 모델 로드 -----
+    dl_model = None
+    dl_model_path = "src/models/DL/final_dl_model_label.pt"
+
+    try:
+        dl_model = load_dl_model(
+<<<<<<< HEAD
+        model_path=dl_model_path,
+        hidden_size=50,
+        )
+
+        dl_input_size = getattr(dl_model, "input_size", dl_model.fc1.in_features)
+        if len(feature_cols) > dl_input_size:
+            # 학습 당시에는 컬럼이 더 적었으므로, 앞에서부터 필요한 개수만 사용
+            feature_cols = feature_cols[:dl_input_size]
+            
+=======
+            model_path=dl_model_path,
+            input_size=len(feature_cols),
+            hidden_size=50,  # 학습 시 사용한 hidden_size와 동일하게
+        )
+>>>>>>> 735c6426bef8fea877d90f11dc16e2f34c6caa2a
+    except Exception as e:
+        st.warning(f"⚠ 딥러닝 모델 로드 실패: {e}")
+
+    # ----- 머신러닝 모델 로드 -----
+    ml_model = None
+    ml_model_path = "src/models/ML/model_dir/LGBM_model.pkl"
+
+    if os.path.exists(ml_model_path):
+        try:
+            import joblib
+
+            ml_model = joblib.load(ml_model_path)
+        except Exception as e:
+            st.warning(f"⚠ ML 모델 로드 실패: {e}")
+    else:
+        # 파일 자체가 없을 때는 조용히 None 유지
+        ml_model = None
+
+    return ml_model, dl_model, feature_cols
+
+
+# ---------------------------------------------------------
+# 🧪 Streamlit 페이지 메인 함수
+#   app.py 에서 run(df) 형태로 호출됨
+# ---------------------------------------------------------
 def run(df: pd.DataFrame):
+    # 모델 및 피처 정보 로드
+    ml_model, dl_model, feature_cols = load_models()
+
     # --------------------------------------------
     # 이 페이지 설명
     # --------------------------------------------
-    # 사용자가 직접 고객 정보를 입력하면,
-    # 나중에 연결될 머신러닝 / 딥러닝 모델을 이용해
-    # 이탈 확률을 계산해주는 페이지입니다.
-    # 지금은 UI 틀(뼈대)만 만들고 모델은 아직 연결하지 않았습니다.
     st.markdown("## 🧪 신규/가상 유저 이탈 예측 (머신러닝·딥러닝)")
 
     st.markdown(
         """
         이 페이지에서는 **유저 정보를 직접 입력**하고,  
-        입력값을 바탕으로 **두 가지 모델(ML/DL)의 예측을 비교**하는 기능을 제공합니다.  
+        입력값을 바탕으로 **머신러닝(ML) / 딥러닝(DL) 모델의 이탈 확률을 비교**합니다.  
         
-        현재는 화면 구조만 만들어 둔 상태이며,  
-        실제 예측 모델 파일(`.pkl`, `.h5`)은 이후에 연결할 예정입니다.
+        - ML 모델 파일: `src/models/ML/model_dir/LGBM_model.pkl`  
+        - DL 모델 파일: `src/models/DL/final_dl_model_label.pt`  
+        
+        모델/전처리 파일이 아직 없다면, 해당 부분은 자동으로 *"모델 준비 중"*으로 표시됩니다.
         """
     )
 
     # --------------------------------------------
     # ✏ 고객 정보 입력 폼
     # --------------------------------------------
-    # st.form을 사용하면 여러 입력값을 묶어서 한 번에 제출할 수 있습니다.
-    # col1, col2, col3 으로 나누어서 화면을 깔끔하게 정리했습니다.
     with st.form("input_form"):
         st.markdown("### ✏ 유저 정보 입력 폼")
 
-        # 화면을 3개의 세로 컬럼으로 나눔
         col1, col2, col3 = st.columns(3)
 
         # 첫 번째 컬럼
@@ -45,7 +122,6 @@ def run(df: pd.DataFrame):
             dependents = st.selectbox("Dependents", ["Yes", "No"])
             tenure = st.number_input("가입개월(tenure)", 0, 120, 12)
 
-            # df에서 실제 존재하는 값들을 가져와 selectbox 생성
             internet = st.selectbox(
                 "InternetService", df["InternetService"].unique().tolist()
             )
@@ -58,26 +134,58 @@ def run(df: pd.DataFrame):
             )
             monthly = st.number_input("MonthlyCharges", 0.0, 200.0, 70.0)
 
-        # 제출 버튼. 눌러야 아래 예측 결과가 나타남
         submitted = st.form_submit_button("🔮 이탈 확률 예측하기")
 
-    # 제출 버튼을 누르기 전이면 함수 종료 → 아무것도 안 보여줌
     if not submitted:
         return
 
-    # -------------------------------------------------------------
-    # 📌 예측 모델 부분 (현재는 "데모용 가짜 값" 넣어둔 상태)
-    # -------------------------------------------------------------
-    # 나중에 실제 모델을 연결하면:
-    # 1) 입력값을 하나로 묶고
-    # 2) 전처리(Encode/Scaling)
-    # 3) 저장된 ML/DL 모델 불러오기
-    # 4) 예측 결과 계산
-    # 이 과정을 거치게 됩니다.
-    #
-    # 지금은 UI 작동 확인을 위해 임시 확률값을 넣어둔다.
-    fake_prob_ml = 0.32  # 머신러닝 모델 예시 결과
-    fake_prob_dl = 0.28  # 딥러닝 모델 예시 결과
+    # --------------------------------------------
+    # 📦 입력값 → DataFrame
+    # --------------------------------------------
+    user_input = {
+        "gender": gender,
+        "SeniorCitizen": senior,
+        "Partner": partner,
+        "Dependents": dependents,
+        "tenure": tenure,
+        "InternetService": internet,
+        "Contract": contract,
+        "PaymentMethod": payment,
+        "MonthlyCharges": monthly,
+    }
+    user_df = pd.DataFrame([user_input])
+
+    # --------------------------------------------
+    # 🤖 머신러닝 예측 (있으면)
+    # --------------------------------------------
+    ml_prob = None  # 이탈 확률(0~1)
+
+    if ml_model is not None and transform_input_for_ml is not None:
+        try:
+            # 전처리 함수가 user_df를 받아서 (1, n_features) ndarray로 반환한다고 가정
+            X_ml = transform_input_for_ml(user_df)  # shape: (1, n_features)
+            ml_prob = float(ml_model.predict_proba(X_ml)[0, 1])
+        except Exception as e:
+            st.warning(f"⚠ ML 예측 중 오류: {e}")
+            ml_prob = None
+
+    # --------------------------------------------
+    # 🧠 딥러닝 예측 (있으면)
+    # --------------------------------------------
+    dl_prob = None
+
+    if dl_model is not None and transform_input_for_dl is not None:
+        try:
+            # transform_input_for_dl도 (1, len(feature_cols)) ndarray를 반환한다고 가정
+            X_dl = transform_input_for_dl(user_df, feature_cols)  # shape: (1, input_size)
+            X_tensor = torch.tensor(X_dl, dtype=torch.float32)
+
+            with torch.no_grad():
+                logit = dl_model(X_tensor)
+                dl_prob = float(torch.sigmoid(logit).item())
+        except Exception as e:
+            st.warning(f"⚠ DL 예측 중 오류: {e}")
+            dl_prob = None
 
     # --------------------------------------------
     # 📉 예측 결과 영역
@@ -89,34 +197,49 @@ def run(df: pd.DataFrame):
     # 머신러닝 결과 표시
     with col_ml:
         st.markdown("#### 🤖 머신러닝 모델 예측")
-        st.metric("이탈 확률 (ML)", f"{fake_prob_ml*100:.1f} %")
-        st.caption("예: Logistic Regression / RandomForest 등 사용 가능")
+
+        if ml_prob is not None:
+            ml_text = f"{ml_prob * 100:.1f} %"
+        else:
+            ml_text = "모델 준비 중"
+
+        st.metric("이탈 확률 (ML)", ml_text)
+        st.caption(
+            "※ ML 모델/전처리 파일(`src/models/ML/*`)이 준비되면 실제 값으로 표시됩니다."
+        )
 
     # 딥러닝 결과 표시
     with col_dl:
         st.markdown("#### 🧠 딥러닝 모델 예측")
-        st.metric("이탈 확률 (DL)", f"{fake_prob_dl*100:.1f} %")
-        st.caption("예: 심층신경망(DNN) 기반 예측")
+
+        if dl_prob is not None:
+            dl_text = f"{dl_prob * 100:.1f} %"
+        else:
+            dl_text = "모델 준비 중"
+
+        st.metric("이탈 확률 (DL)", dl_text)
+        st.caption(
+            "※ DL 모델 파일(`src/models/DL/final_dl_model_label.pt`)과 "
+            "`transform_input_for_dl`이 준비되면 실제 값으로 표시됩니다."
+        )
 
     # --------------------------------------------
-    # 📊 ML vs DL 성능 비교 요약 (검증 데이터 기준)
+    # ⚖ ML vs DL 성능 비교 요약 (검증 데이터 기준)
     # --------------------------------------------
     st.markdown("### ⚖ 모델 비교 요약 (검증 데이터 기준)")
 
-    # 예시 값 – 나중에 Colab에서 나온 실제 값으로 교체
+    # 🔸 아래 metrics 값은 예시입니다.
+    #     나중에 Colab에서 계산한 실제 성능지표를 그대로 넣어주면 됩니다.
     metrics = {
         "지표": ["Accuracy", "F1-score", "AUC"],
         "머신러닝(ML)": [0.84, 0.71, 0.80],
-        "딥러닝(DL)": [0.86, 0.73, 0.82],
+        "딥러닝(DL)": [0.84, 0.73, 0.84],
     }
 
-    # 지표명을 인덱스로 세우면 0,1,2 인덱스가 사라지고 표가 더 깔끔해집니다.
     metrics_df = pd.DataFrame(metrics).set_index("지표")
 
-    # 스타일링: 소수 둘째 자리까지 + 각 행에서 더 높은 값을 연노랑으로 강조
     styled = (
-        metrics_df.style
-        .format({"머신러닝(ML)": "{:.2f}", "딥러닝(DL)": "{:.2f}"})
+        metrics_df.style.format({"머신러닝(ML)": "{:.2f}", "딥러닝(DL)": "{:.2f}"})
         .highlight_max(axis=1, color="#fff3cd")
     )
 
@@ -125,10 +248,8 @@ def run(df: pd.DataFrame):
     st.markdown(
         """
         - 위 수치는 **검증/테스트 데이터**에서 측정한 성능입니다.  
-        - 전반적으로 딥러닝(DL) 모델이 조금 더 높은 성능을 보여,  
-          운영에서는 **DL 모델을 기본 예측 모델**로 사용할 수 있습니다.  
-        - 머신러닝(ML) 모델은 설명/비교용 보조 지표로 활용할 수 있습니다.
+        - 실제 값은 Colab에서 계산한 지표로 교체해 주세요.  
+        - 전반적으로 더 성능이 좋은 모델을 **운영 기본 모델**로 사용하고,  
+          나머지 모델은 비교/설명용으로 활용할 수 있습니다.
         """
     )
-
-
