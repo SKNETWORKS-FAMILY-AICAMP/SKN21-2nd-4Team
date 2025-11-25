@@ -149,7 +149,10 @@ df.isna().sum()
 <br>
 
 # 10. 결측치 처리 방법 및 이유
-- 결측 예측했던 TotalCharges 
+- 결측 예측했던 TotalCharges의 타입을 float으로 변경. 빈칸이 존재함을 발견.
+- tenure * MonthlyCharges와 TotalCharges간의 상관관계를 발견.
+
+- 결측치를 tenure * MonthlyCharges로 처리
 
 <br>
 
