@@ -5,11 +5,11 @@
 ### 👨‍👩‍👧‍👦 **팀원 소개**
 |  이름  | 역 할  |   세부 역할    | Github         |
 | :----: | :----: | :------------: | :------------- |
-| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습 | [@Wjaehyun](https://github.com/Wjaehyun) |
-| 김승룡 |  팀원  | 데이터전처리(결측, 이상치), 모델별 가이드라인 구축, 모델(XGBoost, SVM) 학습    | [@ksryong0](https://github.com/ksryong0) |
-| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습   | [@hyebinhy](https://github.com/hyebinhy) |
-| 이의정 |  팀원  |   모델(RandomForest) 학습     | [@lee910814](https://github.com/lee910814) |
-| 조남웅 |  팀원  |   모델(DecisionTree) 학습, 딥러닝 학습, Streamlit 구현    | [@whskadnd](https://github.com/whskadnd) |
+| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습 및 평가 | [@Wjaehyun](https://github.com/Wjaehyun) |
+| 김승룡 |  팀원  | 데이터전처리(결측, 이상치), 모델별 선행 학습, <br>모델(DecisionTree,RandomForest,LogisticRegression,XGBoost,SVM) 학습 및 평가 | [@ksryong0](https://github.com/ksryong0) |
+| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습 및 평가 | [@hyebinhy](https://github.com/hyebinhy) |
+| 이의정 |  팀원  |   모델(RandomForest) 학습 및 평가   | [@lee910814](https://github.com/lee910814) |
+| 조남웅 |  팀원  |   모델(DecisionTree) 학습 및 평가, 딥러닝 학습, Streamlit 구현    | [@whskadnd](https://github.com/whskadnd) |
 
 ---
 
@@ -84,7 +84,9 @@
 ---
 ## 💬 **팀원 소감**
 - 👑 **우재현** : “~~~~.”  
-- 🧐 **김승룡** : “~~~~.”  
+- 🧐 **김승룡** : 수업시간에 배운 내용들로 무난하게 할 수 있을 것 같았지만 실제로 해보니 더 복잡하고 어려운 점이 많았어서, 더 많이 열심히 공부해서 해야겠다는 생각이 들었습니다.<br>
+결측치 처리도 isnull만 하면 되는게 아니라 빈 값이 있는지도 확인해야했고, 트리 모델에 max_depth를 지정하지 않아서,<br>
+처음에는 정확도가 1이 나오는 엄청난 오버 피팅도 나고 에러도 많았지만, 해결하고 구현된 결과물을 보니 뿌듯했습니다. 
 - 😀 **안혜빈** : “~~~~.”  
 - 🥰 **이의정** : 이번 프로젝트를 통해 직접 모델을 학습시켜 보면서, 데이터의 특성과 목적에 따라 어떤 머신러닝 코드를 작성하고 적용해야 하는지 명확하게 이해할 수 있었습니다. 이론으로만 알던 내용을 실제 코드로 구현해보며 머신러닝 프로세스 전반에 대한 감각을 익히는 소중한 시간이었습니다
 - 🤖 **조남웅** : “~~~~.”
