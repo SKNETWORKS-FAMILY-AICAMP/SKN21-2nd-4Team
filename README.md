@@ -5,17 +5,17 @@
 ### 👨‍👩‍👧‍👦 **팀원 소개**
 |  이름  | 역 할  |   세부 역할    | Github         |
 | :----: | :----: | :------------: | :------------- |
-| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습 | [@Wjaehyun](https://github.com/Wjaehyun) |
+| 우재현 |  팀장  | 디렉토리 구조 설계, 데이터분석, 산출물 정리, 모델(LGBM) 학습, DB연결 | [@Wjaehyun](https://github.com/Wjaehyun) |
 | 김승룡 |  팀원  | 데이터전처리(결측, 이상치), 모델별 가이드라인 구축, 모델(XGBoost, SVM) 학습    | [@ksryong0](https://github.com/ksryong0) |
-| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습   | [@hyebinhy](https://github.com/hyebinhy) |
-| 이의정 |  팀원  |   모델(RandomForest) 학습     | [@lee910814](https://github.com/lee910814) |
-| 조남웅 |  팀원  |   모델(DecisionTree) 학습, 딥러닝 학습, Streamlit 구현    | [@whskadnd](https://github.com/whskadnd) |
+| 안혜빈 |  팀원  |  데이터전처리(인코딩), 모델(LogisticRegression) 학습, DB연결, 모델 비교 분석   | [@hyebinhy](https://github.com/hyebinhy) |
+| 이의정 |  팀원  |   모델(RandomForest) 학습, 테이블 생성     | [@lee910814](https://github.com/lee910814) |
+| 조남웅 |  팀원  |   모델(DecisionTree) 학습, Streamlit 구현    | [@whskadnd](https://github.com/whskadnd) |
 
 ---
 
 ## 📆 **프로젝트 정보**
 - **📅 개발 기간:** 2025.11.24 ~ 2025.11.26  
-- **📘 주제:** 머신러닝, 딥러닝을 이용한 **통신사 고객 이탈률(Churn) 예측 모델 개발**
+- **📘 주제:** 머신러닝을 이용한 **통신사 고객 이탈률(Churn) 예측 모델 개발**
 
 ---
 
@@ -34,7 +34,157 @@
 ✅ 이탈 예측 결과 기반의 의사결정 인사이트 제공
 
 ---
-## 🧩 **데이터 소개**
+
+## ⚒️ 주요기능
+👉전체 유저 유지율 현황과 이탈율<br>
+👉유저 정보 조회<br>
+👉가상/신규 유저 예측<br>
+
+---
+
+
+## 🕹️Tech Stack
+🎛 Backend (API 서버)
+ <div>
+
+![PyMySQL](https://img.shields.io/badge/PyMySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+</div>
+📊 Data Processing & Analysis
+<div>
+
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![optuna](https://img.shields.io/badge/Optuna-6f42c1?style=for-the-badge&logo=optuna&logoColor=white)
+</div>
+📈 Data Visualization
+<div>
+
+![matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=plotly&logoColor=white)
+![seaborn](https://img.shields.io/badge/Seaborn-4C72B0?style=for-the-badge&logo=python&logoColor=white)
+</div>
+💾 Model Saving / Utility
+<div>
+
+![joblib](https://img.shields.io/badge/joblib-4B8BBE?style=for-the-badge&logo=python&logoColor=white)
+![tqdm](https://img.shields.io/badge/tqdm-36a64f?style=for-the-badge&logo=tqdm&logoColor=white)
+</div>
+🖥️ Frontend (Streamlit)
+<div>
+
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+</div>
+⚙️Dev Environment
+<div>
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![venv](https://img.shields.io/badge/venv-181717?style=for-the-badge&logo=python&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![VSCode](https://img.shields.io/badge/VSCode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
+</div>
+
+
+
+
+
+---
+
+## 🧩 디렉토리 구조
+
+<br>
+
+```plaintext
+SKN21-2nd-4Team/
+├── src/                        
+│   ├── backend/
+│   │   ├── config                       
+│   │   │   └── config.py      
+│   │   ├── insert_data.py    
+│   │   ├── query_service.py      
+│   │   ├── toDB.py                     
+│   │   └── test.py          
+│   ├── encoding.py
+│   └── oneHotconv.py
+│
+├── models/                            
+│   └── ML                    
+│       ├── model_dir                     
+│       │   ├─── DecisionTree_model.pkl
+│       │   ├─── LGBM_mdoel.pkl  
+│       │   ├─── LogisticRegression_model.pkl  
+│       │   ├─── RandomForest_best_model.pkl  
+│       │   ├─── RandomForest_model.pkl        
+│       │   ├─── XGB_model.pkl  
+│       │   ├─── svm_model.pkl  
+│       │   └─── valid_DecisionTree_model.pkl  
+│       ├── XGB_model.pkl  
+│       └── xgb_feature_names.pkl  
+├── data/                               
+│   ├── raw/
+│   │   └── Customer_Churn_Dataset.csv                        
+│   ├── interim/
+│   │   ├── Customer_Churn_Dataset_0_impute.csv
+│   │   ├── Customer_Churn_Dataset_knn.csv
+│   │   ├── Customer_Churn_Dataset_simple_frequent.csv
+│   │   └── Customer_Churn_Dataset_simple_median.csv
+│   └── processed/
+│       ├── Customer_Churn_Dataset_0_impute.csv
+│       ├── Customer_Churn_Dataset_0_impute_label.csv
+│       ├── Customer_Churn_Dataset_0_impute_onehot.csv
+│       ├── Customer_Churn_Dataset_knn.csv
+│       ├── Customer_Churn_Dataset_knn_label.csv
+│       ├── Customer_Churn_Dataset_knn_onehot.csv
+│       ├── Customer_Churn_Dataset_simple_frequent.csv
+│       ├── Customer_Churn_Dataset_simple_frequent_label.csv
+│       ├── Customer_Churn_Dataset_simple_frequent_onehot.csv
+│       ├── Customer_Churn_Dataset_simple_median.csv
+│       ├── Customer_Churn_Dataset_simple_median_label.csv
+│       └── Customer_Churn_Dataset_simple_median_onehot.csv
+├── docs/
+│   ├──imgs/
+│   │   ├── ACCnF1.png
+│   │   ├── BestVersionperModel.png
+│   │   ├── RECALLnPrecision.png
+│   │   ├── image-1.png
+│   │   ├── image-2.png
+│   │   ├── image-3.png
+│   │   ├── image-4.png
+│   │   ├── image-5.png
+│   │   ├── image-6.png
+│   │   ├── image-7.png
+│   │   └── image.png
+│   ├── last_ver/    
+│   │   └── EDA.MD
+│   ├── 데이터 전 처리 결과서.MD
+│   └── 모델 학습 결과서.MD
+├── notebooks/                              
+│   ├── metrics.py
+│   ├── ML_DesicionTree.ipynb   
+│   ├── ML_Experiment.ipynb   
+│   ├── ML_LGBM.ipynb   
+│   ├── ML_LogisticRegression.ipynb   
+│   ├── ML_LogisticRegression2.ipynb   
+│   ├── ML_Model_Test_all.ipynb   
+│   ├── eda.ipynb   
+│   ├── missingValue.ipynb                 
+│   ├── model_compare.ipynb               
+│   ├── model_compare_by_imp_method.ipynb  
+│   ├── outlier.ipynb 
+│   └── models_graph.ipynb                     
+├── streamlit/
+│   ├── app.py
+│   ├── page1.py
+│   └── page2.py
+├── notice.txt
+├── requirements.txt
+├── .gitattributes
+├── .gitignore              
+└── README.md
+```
+
+---
+
+## 🌱 **데이터 소개**
 📂 **출처:** (https://www.kaggle.com/datasets/denisexpsito/telco-customer-churn-ibm)
 
 | 컬럼명              | 설명                        |    타입   |
@@ -64,7 +214,7 @@
 | Churn            | 이탈 여부 (Target)            |  int64  |
 
 ---
-## 💻 Streamlit 구현(화면 녹화를 할까요 말까요)
+## 💻 Streamlit 구현
 1) 📊 전체 이탈 현황 대시보드
   - 전체 고객 이탈율·유지율 확인
   - 계약/결제/인터넷 서비스별 이탈율 비교
