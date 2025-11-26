@@ -39,8 +39,6 @@ tqdm>=4.67
 optuna>=4.6
 
 
-
-
 mysql-connector-python==9.5.0
 cffi==2.0.0
 cryptography==46.0.3
