@@ -12,6 +12,7 @@ from config.config import DB_CONFIG
 
 # MySQL DB 연결 객체를 반환
 
+
 print(DB_CONFIG)
 
 def get_connection():
