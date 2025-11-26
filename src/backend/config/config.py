@@ -10,9 +10,9 @@ load_dotenv()
 
 # 이름, 비밀번호 설정 필요
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "localhost"),
+    "host": os.getenv("DB_HOST", "127.0.0.1"),
     "user": os.getenv("DB_USER", "root"),
-    "password": os.getenv("DB_PASSWORD", "1234"),
+    "password": os.getenv("DB_PASSWORD", "Wjaehyun05~!!"),
     "database": os.getenv("DB_NAME", "telco_churn"),
     "port": int(os.getenv("DB_PORT", 3306))
 }

@@ -1,6 +1,7 @@
 # main.py
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from src.backend.query_service import load_all_customers
 
 import streamlit as st
 import pandas as pd
@@ -27,8 +28,12 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     # 이 경로에 csv 파일이 있다고 가정합니다.
-    path = "data/processed/Customer_Churn_Dataset_0_impute.csv"
-    df = pd.read_csv(path)
+    # path = "data/processed/Customer_Churn_Dataset_knn.csv"
+    # df = pd.read_csv(path)
+    # conn = load_all_customers()
+    # df = pd.read_sql('SELECT * FROM customer_churn', conn)
+    df = load_all_customers()
+    # st.dataframe(df, use_container_width=True)
 
     # TotalCharges 컬럼을 숫자로 변환
     #  - 숫자로 안 읽히는 값은 NaN -> 0으로 처리
@@ -43,7 +48,7 @@ def load_data():
 
 
 # 실제로 데이터 한 번 로딩
-df = load_data()
+# df = load_data()
 
 # ------------------------------------
 # 🔧 안전 상태에 따라 텍스트/이모지/색상 반환
@@ -71,12 +76,17 @@ def get_status_and_color(safety: float):
 #  - 세그먼트별 이탈율 표/그래프
 #  - 오늘의 액션 포인트
 # ------------------------------------
+
+
 def render_main(df: pd.DataFrame):
     # 전체 고객 수
+    # st.dataframe(df, use_container_width=True)  
     total_customers = len(df)
 
+    # df["ChurnFlag"] = df["Chrun"].map(binary_map)
     # 전체 이탈율 (평균값이 곧 이탈율)
-    churn_rate = df["ChurnFlag"].mean()
+    # churn_rate = df["ChurnFlag"].mean()
+    churn_rate = df['ChurnFlag'].mean()
     churn_rate_pct = churn_rate * 100
 
     # 이탈 안전율 = 100 - 이탈율
@@ -357,7 +367,9 @@ st.sidebar.markdown("---")
 # 🚦 페이지 라우팅
 #  - 선택된 메뉴에 따라 다른 함수 실행
 # ------------------------------------
+df = load_data()
 if menu == "Main":
+    # df = load_data()
     # 메인 대시보드
     render_main(df)
 elif menu == "page1":

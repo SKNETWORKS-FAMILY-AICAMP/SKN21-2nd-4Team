@@ -7,8 +7,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # 
 import pandas as pd
 from toDB import get_connection
 
-csv_path = '../../data/interim/Customer_Churn_Dataset_0_impute.csv'
-
+# csv_path = '../../data/processed/Customer_Churn_Dataset_knn.csv'
+csv_path = 'C:\documents\Project\SKN21-2nd-4Team\data\processed\Customer_Churn_Dataset_knn.csv'
 
 
 # print(os.path.exists(csv_path))

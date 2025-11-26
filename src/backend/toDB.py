@@ -1,7 +1,7 @@
 import pymysql
 from pymysql.cursors import DictCursor
-from config.config import DB_CONFIG
-
+from src.backend.config.config import DB_CONFIG
+import streamlit as st
 
 # import os
 # import sys
@@ -13,8 +13,8 @@ from config.config import DB_CONFIG
 # MySQL DB 연결 객체를 반환
 
 
-print(DB_CONFIG)
-
+# print(DB_CONFIG)
+@st.cache_resource
 def get_connection():
     try:
         # print(DB_CONFIG)
@@ -24,7 +24,7 @@ def get_connection():
             password=DB_CONFIG["password"],
             database=DB_CONFIG["database"],
             port=DB_CONFIG["port"],
-            cursorclass=DictCursor,
+            # cursorclass=DictCursor,
             charset="utf8mb4"
         )
         return conn
