@@ -114,7 +114,8 @@ def run(df: pd.DataFrame):
     # --------------------------------------------
     ml_prob = None
     ml_model = joblib.load("models/ML/XGB_model.pkl")
-    # conv = conv.reindex(columns=feature_cols, fill_value=0)
+    feature_cols = joblib.load("models/ML/xgb_feature_names.pkl")
+    conv = conv.reindex(columns=feature_cols, fill_value=0)
 
 
     if ml_model is not None:
